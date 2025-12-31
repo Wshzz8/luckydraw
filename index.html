@@ -13,7 +13,6 @@
     font-family: Consolas, "Courier New", monospace;
 }
 
-/* 🌌 代码背景 */
 body {
     height: 200vh;
     color: #00ffcc;
@@ -37,7 +36,6 @@ body {
     transition: background-color 0.6s ease;
 }
 
-/* 主画面 */
 .container {
     height: 100vh;
     display: flex;
@@ -73,7 +71,6 @@ h1 {
     text-shadow: 0 0 10px rgba(255,77,79,0.8);
 }
 
-/* 下滑变色 */
 body.scrolled {
     background:
         repeating-linear-gradient(
@@ -133,12 +130,10 @@ window.addEventListener("scroll", () => {
     if (!triggered && rect.top < window.innerHeight * 0.6) {
         triggered = true;
 
-        // 📳 震动
         if (navigator.vibrate) {
             navigator.vibrate([200, 100, 200, 100, 400]);
         }
 
-        // 🔊 音效
         const sound = document.getElementById("failSound");
         sound.play().catch(() => {});
     }
