@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>惊喜来了～</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Consolas, "Courier New", monospace;
+}
+
+/* 🌌 代码背景 */
+body {
+    height: 200vh;
+    color: #00ffcc;
+    background:
+        repeating-linear-gradient(
+            180deg,
+            rgba(0,255,204,0.08) 0px,
+            rgba(0,255,204,0.08) 1px,
+            transparent 1px,
+            transparent 24px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,255,204,0.05) 0px,
+            rgba(0,255,204,0.05) 1px,
+            transparent 1px,
+            transparent 18px
+        ),
+        linear-gradient(180deg, #050505, #0b1f1a);
+    background-attachment: fixed;
+    transition: background-color 0.6s ease;
+}
+
+/* 主画面 */
+.container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    text-shadow: 0 0 8px rgba(0,255,204,0.6);
+    transition: color 0.5s;
+}
+
+.hint {
+    margin-top: 16px;
+    font-size: 1rem;
+    opacity: 0.8;
+    animation: bounce 1.2s infinite;
+}
+
+/* 惊喜区 */
+.surprise {
+    margin-top: 120vh;
+    text-align: center;
+    padding: 40px;
+}
+
+.surprise h2 {
+    font-size: 1.7rem;
+    color: #ff4d4f;
+    text-shadow: 0 0 10px rgba(255,77,79,0.8);
+}
+
+/* 下滑变色 */
+body.scrolled {
+    background:
+        repeating-linear-gradient(
+            180deg,
+            rgba(255,77,79,0.08) 0px,
+            rgba(255,77,79,0.08) 1px,
+            transparent 1px,
+            transparent 24px
+        ),
+        linear-gradient(180deg, #120000, #300000);
+}
+
+body.scrolled h1 {
+    color: #ff4d4f;
+}
+
+@keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div>
+        <h1>🎉 恭喜你中奖了 🎉</h1>
+        <div class="hint">⬇ 往下滑发现惊喜 ⬇</div>
+    </div>
+</div>
+
+<div class="surprise" id="surprise">
+    <h2>
+        恭喜你在新的一年第一天被骗！<br><br>
+        以后请吃一垫长一智哦～<br>
+        (＾－＾)V
+    </h2>
+</div>
+
+<!-- 音效 -->
+<audio id="failSound" src="fail.mp3" preload="auto"></audio>
+
+<script>
+let triggered = false;
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 100) {
+        document.body.classList.add("scrolled");
+    } else {
+        document.body.classList.remove("scrolled");
+    }
+
+    const surprise = document.getElementById("surprise");
+    const rect = surprise.getBoundingClientRect();
+
+    if (!triggered && rect.top < window.innerHeight * 0.6) {
+        triggered = true;
+
+        // 📳 震动
+        if (navigator.vibrate) {
+            navigator.vibrate([200, 100, 200, 100, 400]);
+        }
+
+        // 🔊 音效
+        const sound = document.getElementById("failSound");
+        sound.play().catch(() => {});
+    }
+});
+</script>
+
+</body>
+</html>
